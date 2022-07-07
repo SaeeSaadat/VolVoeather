@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "places-to-visit-in-berlin-germany.jpg",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

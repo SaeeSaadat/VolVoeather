@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "destinations-stockholm-banner-mobile-1024x553.jpg",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
