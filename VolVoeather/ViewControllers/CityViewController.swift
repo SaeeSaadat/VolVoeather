@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Combine
 
 class CityViewController: UIViewController {
 
@@ -16,8 +17,10 @@ class CityViewController: UIViewController {
     @IBOutlet weak var conditionLabel: UILabel!
     @IBOutlet weak var iconImageVIew: UIImageView!
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var tableViewHeightConstraint: NSLayoutConstraint!
     
     var model: City?
+    var observer: [AnyCancellable] = []
     
     
     override func viewDidLoad() {
@@ -36,9 +39,44 @@ class CityViewController: UIViewController {
 
         let image = UIImage(named: model.name.components(separatedBy: .whitespacesAndNewlines).joined().lowercased())
         cityImageView.image = image
+        cityImageView.layer.cornerRadius = 15
+        cityImageView.clipsToBounds = true
         nameLabel.text = model.name
-        conditionLabel.text = model.weather?.condition
+        conditionLabel.text = "\(model.weather?.main?.temp ?? 0)"
+    }
+    
+    func fetchData() {
+        guard let model = model else {
+            return
+        }
 
+        do {
+            try NetworkManager.getRequest(url: "\(Constants.openWeatherURL)?lat=\(model.lat)&lon=\(model.lon)&units=metric&appid=\(Constants.appID)")
+                .receive(on: DispatchQueue.main)
+                .sink { completion in
+                    switch completion {
+                    case .failure(let error):
+                        print("error! \(error)")
+                    case .finished:
+                        print("Finished! yeay!")
+                    }
+                } receiveValue: { [weak self] (data, response) in
+                    guard let self = self else { return }
+                    self.conditionLabel.text = "Done"
+                    let decoder = JSONDecoder()
+                    do {
+                        let weather = try decoder.decode(OpenWeatherModel.self, from: data)
+                        print(weather)
+                    } catch {
+                        print("Exception occured while decoding response!")
+                    }
+                    
+                }.store(in: &observer)
+        } catch {
+            print("Exception occured!")
+        }
+
+        
     }
     
 

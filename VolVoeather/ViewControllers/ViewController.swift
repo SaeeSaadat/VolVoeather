@@ -7,10 +7,13 @@
 
 import UIKit
 import Hero
+import Combine
+
 
 class ViewController: UIViewController {
 
     private let cities = City.getAllCities()
+    private var observer: [AnyCancellable] = []
     
     let tableView: UITableView = {
         let tv = UITableView()
@@ -37,10 +40,39 @@ class ViewController: UIViewController {
         tableView.dataSource = self
         
         self.isHeroEnabled = true
+        fetchCityData()
     }
     
 
-
+    private func fetchCityData() {
+        for city in cities {
+            do {
+                try NetworkManager.getRequest(url: "\(Constants.openWeatherURL)?lat=\(city.lat)&lon=\(city.lon)&units=metric&appid=\(Constants.appID)")
+                    .receive(on: DispatchQueue.main)
+                    .sink { completion in
+                        switch completion {
+                        case .failure(let error):
+                            print("error! \(error)")
+                        case .finished:
+                            print("Finished! yeay!")
+                        }
+                    } receiveValue: { [weak self] (data, response) in
+                        guard let self = self else { return }
+                        let decoder = JSONDecoder()
+                        do {
+                            let weather = try decoder.decode(OpenWeatherModel.self, from: data)
+                            city.weather = weather
+                            self.tableView.reloadData()
+                        } catch {
+                            print("Exception occured while decoding response!")
+                        }
+                        
+                    }.store(in: &observer)
+            } catch {
+                print("Exception occured!")
+            }
+        }
+    }
 }
 
 
@@ -54,7 +86,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             return UITableViewCell()
         }
         let city = cities[indexPath.row]
-        cell.setupCell(cityName: city.name, temp: city.weather?.temp)
+        cell.setupCell(cityName: city.name, temp: city.weather?.main?.temp)
         return cell
     }
     

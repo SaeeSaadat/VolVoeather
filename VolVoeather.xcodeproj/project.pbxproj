@@ -17,9 +17,12 @@
 		006FA3CE2877289100AB542D /* Volvoether+UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 006FA3CD2877289100AB542D /* Volvoether+UIView.swift */; };
 		006FA3D1287728E700AB542D /* WeatherTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 006FA3D0287728E700AB542D /* WeatherTableViewCell.swift */; };
 		006FA3D428772EA900AB542D /* City.swift in Sources */ = {isa = PBXBuildFile; fileRef = 006FA3D328772EA900AB542D /* City.swift */; };
-		006FA3D62877319B00AB542D /* Weather.swift in Sources */ = {isa = PBXBuildFile; fileRef = 006FA3D52877319B00AB542D /* Weather.swift */; };
 		006FA3D82877428A00AB542D /* CityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 006FA3D72877428A00AB542D /* CityViewController.swift */; };
 		006FA3DA287742E700AB542D /* CityStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 006FA3D9287742E700AB542D /* CityStoryboard.storyboard */; };
+		00E4CD882877FDCE00E06ACF /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00E4CD872877FDCE00E06ACF /* NetworkManager.swift */; };
+		00E4CD8A2877FE7F00E06ACF /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00E4CD892877FE7F00E06ACF /* GradientView.swift */; };
+		00E4CD8C2878063B00E06ACF /* Contstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00E4CD8B2878063B00E06ACF /* Contstants.swift */; };
+		00E4CD8E28780B5A00E06ACF /* OpenWeatherModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00E4CD8D28780B5A00E06ACF /* OpenWeatherModel.swift */; };
 		3E9D5FFDD66A297AB6993AA3 /* Pods_VolVoeather.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F598D12C3FE8E1D4BC86140 /* Pods_VolVoeather.framework */; };
 /* End PBXBuildFile section */
 
@@ -36,9 +39,12 @@
 		006FA3CD2877289100AB542D /* Volvoether+UIView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Volvoether+UIView.swift"; sourceTree = "<group>"; };
 		006FA3D0287728E700AB542D /* WeatherTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherTableViewCell.swift; sourceTree = "<group>"; };
 		006FA3D328772EA900AB542D /* City.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = City.swift; sourceTree = "<group>"; };
-		006FA3D52877319B00AB542D /* Weather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Weather.swift; sourceTree = "<group>"; };
 		006FA3D72877428A00AB542D /* CityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityViewController.swift; sourceTree = "<group>"; };
 		006FA3D9287742E700AB542D /* CityStoryboard.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = CityStoryboard.storyboard; sourceTree = "<group>"; };
+		00E4CD872877FDCE00E06ACF /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		00E4CD892877FE7F00E06ACF /* GradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
+		00E4CD8B2878063B00E06ACF /* Contstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Contstants.swift; sourceTree = "<group>"; };
+		00E4CD8D28780B5A00E06ACF /* OpenWeatherModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenWeatherModel.swift; sourceTree = "<group>"; };
 		4F598D12C3FE8E1D4BC86140 /* Pods_VolVoeather.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_VolVoeather.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6C7F6B87AB81E960FF370C90 /* Pods-VolVoeather.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VolVoeather.release.xcconfig"; path = "Target Support Files/Pods-VolVoeather/Pods-VolVoeather.release.xcconfig"; sourceTree = "<group>"; };
 		716CAF335C49C381688DA655 /* Pods-VolVoeather.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VolVoeather.debug.xcconfig"; path = "Target Support Files/Pods-VolVoeather/Pods-VolVoeather.debug.xcconfig"; sourceTree = "<group>"; };
@@ -86,6 +92,7 @@
 				006FA3B32877221600AB542D /* SceneDelegate.swift */,
 				006FA3BA2877221700AB542D /* Assets.xcassets */,
 				006FA3BF2877221700AB542D /* Info.plist */,
+				00E4CD8B2878063B00E06ACF /* Contstants.swift */,
 			);
 			path = VolVoeather;
 			sourceTree = "<group>";
@@ -94,7 +101,7 @@
 			isa = PBXGroup;
 			children = (
 				006FA3D328772EA900AB542D /* City.swift */,
-				006FA3D52877319B00AB542D /* Weather.swift */,
+				00E4CD8D28780B5A00E06ACF /* OpenWeatherModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -111,7 +118,8 @@
 		006FA3C82877227800AB542D /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				006FA3CA287727C000AB542D /* extensions */,
+				00E4CD862877FDB700E06ACF /* Network Manager */,
+				006FA3CA287727C000AB542D /* Extensions */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -126,21 +134,30 @@
 			path = StoryBoards;
 			sourceTree = "<group>";
 		};
-		006FA3CA287727C000AB542D /* extensions */ = {
+		006FA3CA287727C000AB542D /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
 				006FA3CD2877289100AB542D /* Volvoether+UIView.swift */,
 				006FA3CB287727D300AB542D /* Volvoether+UIImage.swift */,
 			);
-			path = extensions;
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		006FA3CF287728CE00AB542D /* Views */ = {
 			isa = PBXGroup;
 			children = (
 				006FA3D0287728E700AB542D /* WeatherTableViewCell.swift */,
+				00E4CD892877FE7F00E06ACF /* GradientView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		00E4CD862877FDB700E06ACF /* Network Manager */ = {
+			isa = PBXGroup;
+			children = (
+				00E4CD872877FDCE00E06ACF /* NetworkManager.swift */,
+			);
+			path = "Network Manager";
 			sourceTree = "<group>";
 		};
 		280D6688D6D770E712C7320C /* Frameworks */ = {
@@ -276,8 +293,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				006FA3D62877319B00AB542D /* Weather.swift in Sources */,
+				00E4CD8E28780B5A00E06ACF /* OpenWeatherModel.swift in Sources */,
 				006FA3D1287728E700AB542D /* WeatherTableViewCell.swift in Sources */,
+				00E4CD8A2877FE7F00E06ACF /* GradientView.swift in Sources */,
+				00E4CD882877FDCE00E06ACF /* NetworkManager.swift in Sources */,
+				00E4CD8C2878063B00E06ACF /* Contstants.swift in Sources */,
 				006FA3B62877221600AB542D /* ViewController.swift in Sources */,
 				006FA3B22877221600AB542D /* AppDelegate.swift in Sources */,
 				006FA3CC287727D300AB542D /* Volvoether+UIImage.swift in Sources */,

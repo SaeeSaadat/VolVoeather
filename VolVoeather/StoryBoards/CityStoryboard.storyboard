@@ -18,22 +18,22 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KkZ-TC-5zI">
-                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="862"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5cf-6Y-fhb" userLabel="Content View">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="800"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="1056"/>
                                         <subviews>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="nnV-xx-EOH">
-                                                <rect key="frame" x="0.0" y="0.0" width="414" height="200"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="414" height="300"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="200" id="7s0-Mq-GLE"/>
+                                                    <constraint firstAttribute="height" constant="300" id="7s0-Mq-GLE"/>
                                                 </constraints>
                                                 <userDefinedRuntimeAttributes>
                                                     <userDefinedRuntimeAttribute type="string" keyPath="heroID" value="image"/>
                                                 </userDefinedRuntimeAttributes>
                                             </imageView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iS5-wg-m7k">
-                                                <rect key="frame" x="30" y="250" width="354" height="49"/>
+                                                <rect key="frame" x="30" y="350" width="354" height="49"/>
                                                 <fontDescription key="fontDescription" name="Optima-ExtraBlack" family="Optima" pointSize="40"/>
                                                 <color key="textColor" name="textnt"/>
                                                 <nil key="highlightedColor"/>
@@ -42,7 +42,7 @@
                                                 </userDefinedRuntimeAttributes>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ynn-Ho-8ff">
-                                                <rect key="frame" x="30" y="319" width="354" height="37"/>
+                                                <rect key="frame" x="30" y="419" width="354" height="37"/>
                                                 <fontDescription key="fontDescription" name="Optima-ExtraBlack" family="Optima" pointSize="30"/>
                                                 <color key="textColor" name="textnt"/>
                                                 <nil key="highlightedColor"/>
@@ -51,14 +51,17 @@
                                                 </userDefinedRuntimeAttributes>
                                             </label>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="sAl-Ew-rnl">
-                                                <rect key="frame" x="278" y="250" width="106" height="106"/>
+                                                <rect key="frame" x="278" y="350" width="106" height="106"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="sAl-Ew-rnl" secondAttribute="height" multiplier="1:1" id="Agr-Pb-Iwx"/>
                                                 </constraints>
                                             </imageView>
                                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="7gz-I5-wio">
-                                                <rect key="frame" x="30" y="406" width="354" height="344"/>
+                                                <rect key="frame" x="30" y="506" width="354" height="500"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="500" id="6nq-Ez-FFi"/>
+                                                </constraints>
                                                 <connections>
                                                     <outlet property="dataSource" destination="Y6W-OH-hqX" id="RA2-Qh-eUe"/>
                                                     <outlet property="delegate" destination="Y6W-OH-hqX" id="4T4-qB-TYT"/>
@@ -69,6 +72,7 @@
                                         <constraints>
                                             <constraint firstAttribute="trailing" secondItem="sAl-Ew-rnl" secondAttribute="trailing" constant="30" id="0j9-gj-ezf"/>
                                             <constraint firstItem="Ynn-Ho-8ff" firstAttribute="leading" secondItem="iS5-wg-m7k" secondAttribute="leading" id="3Tt-rE-Hjs"/>
+                                            <constraint firstItem="nnV-xx-EOH" firstAttribute="top" secondItem="5cf-6Y-fhb" secondAttribute="top" id="3ei-XN-WA7"/>
                                             <constraint firstItem="iS5-wg-m7k" firstAttribute="top" secondItem="nnV-xx-EOH" secondAttribute="bottom" constant="50" id="6eQ-Tw-QhS"/>
                                             <constraint firstItem="7gz-I5-wio" firstAttribute="trailing" secondItem="Ynn-Ho-8ff" secondAttribute="trailing" id="FqO-Yi-yQF"/>
                                             <constraint firstAttribute="trailing" secondItem="nnV-xx-EOH" secondAttribute="trailing" id="KsB-vR-sLr"/>
@@ -77,12 +81,10 @@
                                             <constraint firstAttribute="trailing" secondItem="iS5-wg-m7k" secondAttribute="trailing" constant="30" id="Yl9-vB-bxg"/>
                                             <constraint firstItem="7gz-I5-wio" firstAttribute="leading" secondItem="Ynn-Ho-8ff" secondAttribute="leading" id="aYQ-CY-vUv"/>
                                             <constraint firstItem="sAl-Ew-rnl" firstAttribute="bottom" secondItem="Ynn-Ho-8ff" secondAttribute="bottom" id="c0P-kc-XYD"/>
-                                            <constraint firstItem="nnV-xx-EOH" firstAttribute="top" secondItem="5cf-6Y-fhb" secondAttribute="top" id="eyE-kZ-sad"/>
                                             <constraint firstAttribute="bottom" secondItem="7gz-I5-wio" secondAttribute="bottom" constant="50" id="fZL-sp-Ox7"/>
                                             <constraint firstItem="sAl-Ew-rnl" firstAttribute="top" secondItem="iS5-wg-m7k" secondAttribute="top" id="ntX-t8-EuS"/>
                                             <constraint firstItem="nnV-xx-EOH" firstAttribute="leading" secondItem="5cf-6Y-fhb" secondAttribute="leading" id="qYH-bD-ti4"/>
                                             <constraint firstItem="7gz-I5-wio" firstAttribute="top" secondItem="Ynn-Ho-8ff" secondAttribute="bottom" constant="50" id="qex-vy-Qrd"/>
-                                            <constraint firstAttribute="height" constant="800" id="vp6-yc-fYB"/>
                                             <constraint firstItem="Ynn-Ho-8ff" firstAttribute="trailing" secondItem="iS5-wg-m7k" secondAttribute="trailing" id="yMU-Z6-kSE"/>
                                         </constraints>
                                     </view>
@@ -103,7 +105,7 @@
                         <color key="backgroundColor" name="background"/>
                         <constraints>
                             <constraint firstItem="KkZ-TC-5zI" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="1ht-ti-on5"/>
-                            <constraint firstItem="KkZ-TC-5zI" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" id="219-xy-LE9"/>
+                            <constraint firstItem="KkZ-TC-5zI" firstAttribute="top" secondItem="5EZ-qb-Rvc" secondAttribute="top" id="219-xy-LE9"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="KkZ-TC-5zI" secondAttribute="bottom" id="6oA-HQ-Axk"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="KkZ-TC-5zI" secondAttribute="trailing" id="RDT-ke-G46"/>
                         </constraints>
@@ -118,7 +120,8 @@
                         <outlet property="iconImageVIew" destination="sAl-Ew-rnl" id="d8J-Nr-buj"/>
                         <outlet property="nameLabel" destination="iS5-wg-m7k" id="F8F-4L-GGS"/>
                         <outlet property="scrollView" destination="KkZ-TC-5zI" id="q7c-vw-WsH"/>
-                        <outlet property="tableView" destination="7gz-I5-wio" id="ezG-cF-8eo"/>
+                        <outlet property="tableView" destination="7gz-I5-wio" id="pw2-6z-GRd"/>
+                        <outlet property="tableViewHeightConstraint" destination="6nq-Ez-FFi" id="Ebr-f5-jhz"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

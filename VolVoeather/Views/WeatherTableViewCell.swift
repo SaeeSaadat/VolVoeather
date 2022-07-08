@@ -19,6 +19,18 @@ class WeatherTableViewCell: UITableViewCell {
         return v
     }()
     
+    let gradientView: GradientView = {
+        let v = GradientView()
+        v.diagonalMode = true
+        v.startColor = (UIColor(named: "background") ?? .black).withAlphaComponent(1)
+        v.startLocation = 0
+        v.endLocation = 0.5
+        v.diagonalMode = false
+        v.horizontalMode = true
+        v.translatesAutoresizingMaskIntoConstraints = false
+        return v
+    }()
+    
     let backgroundImageView: UIImageView = {
         let iv = UIImageView()
         iv.translatesAutoresizingMaskIntoConstraints = false
@@ -75,7 +87,11 @@ class WeatherTableViewCell: UITableViewCell {
         containerView.addSubview(backgroundImageView)
         backgroundImageView.constraintToEdges(to: containerView)
         
-        backgroundImageView.addBlurView(blurStyle: .dark)
+        
+        containerView.addSubview(gradientView)
+        gradientView.constraintToEdges(to: containerView)
+        
+//        backgroundImageView.addBlurView(blurStyle: .dark)
         containerView.addSubview(labelStack)
         
         backgroundImageView.layer.cornerRadius = 30
