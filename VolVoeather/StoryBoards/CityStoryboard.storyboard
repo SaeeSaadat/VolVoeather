@@ -55,6 +55,9 @@
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="sAl-Ew-rnl" secondAttribute="height" multiplier="1:1" id="Agr-Pb-Iwx"/>
                                                 </constraints>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="string" keyPath="heroID" value="icon"/>
+                                                </userDefinedRuntimeAttributes>
                                             </imageView>
                                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="7gz-I5-wio">
                                                 <rect key="frame" x="30" y="506" width="354" height="500"/>
@@ -67,12 +70,23 @@
                                                     <outlet property="delegate" destination="Y6W-OH-hqX" id="4T4-qB-TYT"/>
                                                 </connections>
                                             </tableView>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00:00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dqw-zM-AoC">
+                                                <rect key="frame" x="318.5" y="30" width="75.5" height="37"/>
+                                                <fontDescription key="fontDescription" name="Optima-Bold" family="Optima" pointSize="30"/>
+                                                <color key="textColor" name="textnt"/>
+                                                <nil key="highlightedColor"/>
+                                                <color key="shadowColor" name="text"/>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="string" keyPath="heroID" value="time"/>
+                                                </userDefinedRuntimeAttributes>
+                                            </label>
                                         </subviews>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="trailing" secondItem="sAl-Ew-rnl" secondAttribute="trailing" constant="30" id="0j9-gj-ezf"/>
                                             <constraint firstItem="Ynn-Ho-8ff" firstAttribute="leading" secondItem="iS5-wg-m7k" secondAttribute="leading" id="3Tt-rE-Hjs"/>
                                             <constraint firstItem="nnV-xx-EOH" firstAttribute="top" secondItem="5cf-6Y-fhb" secondAttribute="top" id="3ei-XN-WA7"/>
+                                            <constraint firstItem="dqw-zM-AoC" firstAttribute="top" secondItem="5cf-6Y-fhb" secondAttribute="top" constant="30" id="64q-P5-iac"/>
                                             <constraint firstItem="iS5-wg-m7k" firstAttribute="top" secondItem="nnV-xx-EOH" secondAttribute="bottom" constant="50" id="6eQ-Tw-QhS"/>
                                             <constraint firstItem="7gz-I5-wio" firstAttribute="trailing" secondItem="Ynn-Ho-8ff" secondAttribute="trailing" id="FqO-Yi-yQF"/>
                                             <constraint firstAttribute="trailing" secondItem="nnV-xx-EOH" secondAttribute="trailing" id="KsB-vR-sLr"/>
@@ -85,6 +99,7 @@
                                             <constraint firstItem="sAl-Ew-rnl" firstAttribute="top" secondItem="iS5-wg-m7k" secondAttribute="top" id="ntX-t8-EuS"/>
                                             <constraint firstItem="nnV-xx-EOH" firstAttribute="leading" secondItem="5cf-6Y-fhb" secondAttribute="leading" id="qYH-bD-ti4"/>
                                             <constraint firstItem="7gz-I5-wio" firstAttribute="top" secondItem="Ynn-Ho-8ff" secondAttribute="bottom" constant="50" id="qex-vy-Qrd"/>
+                                            <constraint firstAttribute="trailing" secondItem="dqw-zM-AoC" secondAttribute="trailing" constant="20" id="ukd-ac-9ve"/>
                                             <constraint firstItem="Ynn-Ho-8ff" firstAttribute="trailing" secondItem="iS5-wg-m7k" secondAttribute="trailing" id="yMU-Z6-kSE"/>
                                         </constraints>
                                     </view>
@@ -122,6 +137,7 @@
                         <outlet property="scrollView" destination="KkZ-TC-5zI" id="q7c-vw-WsH"/>
                         <outlet property="tableView" destination="7gz-I5-wio" id="pw2-6z-GRd"/>
                         <outlet property="tableViewHeightConstraint" destination="6nq-Ez-FFi" id="Ebr-f5-jhz"/>
+                        <outlet property="timeLabel" destination="dqw-zM-AoC" id="3qY-SQ-qLg"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -132,6 +148,9 @@
     <resources>
         <namedColor name="background">
             <color red="0.10999999940395355" green="0.10999999940395355" blue="0.13300000131130219" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="text">
+            <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="textnt">
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

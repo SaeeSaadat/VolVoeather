@@ -13,6 +13,7 @@ class City {
     let lat: Float
     let lon: Float
     var weather: OpenWeatherModel?
+    var forecast: [ForecastModelWrapper]?
 
     var weatherIcon: UIImage? {
         didSet {
@@ -43,7 +44,6 @@ class City {
 }
 
 extension City {
-    @discardableResult
     func fetchData() -> Future<City, Error> {
         return Future { [weak self] promise in
             guard let self = self else { return }
@@ -75,8 +75,9 @@ extension City {
         }
     }
     
-    func fetchWeatherIcon() {
-        guard let iconName = self.weather?.weather[0]?.icon else { return }
+    func fetchWeatherIcon(iconID: String? = nil) {
+        // TODO: cache icons using coreData
+        guard let iconName = iconID ?? self.weather?.weather[0]?.icon else { return }
         do {
             try NetworkManager.getRequest(url: "\(Constants.openWeatherIconsURL)/\(iconName)@2x.png")
                 .sink(receiveCompletion: { completion in
@@ -94,4 +95,66 @@ extension City {
             print("error occured while fetching weather icon: \(err)")
         }
     }
+    
+    func fetchForecast() -> Future<[ForecastModelWrapper]?, Error> {
+        return Future { [weak self] promise in
+            guard let self = self else { return }
+            do {
+                try NetworkManager.getRequest(url: "\(Constants.openWeatherForecastURL)?lat=\(self.lat)&lon=\(self.lon)&units=metric&appid=\(Constants.appID)")
+                    .sink( receiveCompletion: { completion in
+                        switch completion {
+                        case .failure(let error):
+                            promise(.failure(error))
+                        case .finished:
+                            print("city \(self.name) data fetched successfully!")
+                        }
+                    }, receiveValue: { [weak self] (data, response) in
+                        guard let self = self else { return }
+                        let decoder = JSONDecoder()
+                        do {
+                            let forecast = try decoder.decode(OpenWeatherForecastModel.self, from: data)
+                            self.forecast = forecast.list?.map({ forecastModel in
+                                return ForecastModelWrapper(forecast: forecastModel)
+                            })
+                            for f in self.forecast ?? [] {
+                                self.fetchForecastIcon(forecast: f, iconID: f.forecast.weather?[0].icon)
+                            }
+                            
+                            promise(.success(self.forecast))
+                        } catch (let err) {
+                            print("Exception occured while decoding forecast response!")
+                            print(err)
+                            promise(.failure(err))
+                        }
+                    }).store(in: &self.observer)
+            } catch(let error) {
+                promise(.failure(error))
+            }
+        }
+    }
+    
+    func fetchForecastIcon(forecast: ForecastModelWrapper, iconID: String?) {
+        // TODO: cache icons using coreData
+        guard let iconID = iconID else {
+            return
+        }
+
+        do {
+            try NetworkManager.getRequest(url: "\(Constants.openWeatherIconsURL)/\(iconID)@2x.png")
+                .sink(receiveCompletion: { completion in
+                    if case .failure(let err) = completion {
+                        self.weatherIcon = UIImage(systemName: "xmark.icloud")
+                        print("failure occured while fetching weather icon: \(err)")
+                    }
+                }, receiveValue: { (data: Data, response: URLResponse) in
+                    if let image = UIImage(data: data) {
+                        forecast.weatherIcon = image
+                    }
+                }).store(in: &observer)
+        } catch (let err){
+            self.weatherIcon = UIImage(systemName: "xmark.icloud")
+            print("error occured while fetching weather icon: \(err)")
+        }
+    }
+    
 }

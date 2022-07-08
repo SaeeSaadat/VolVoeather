@@ -82,6 +82,7 @@ class WeatherTableViewCell: UITableViewCell {
         iv.translatesAutoresizingMaskIntoConstraints = false
         iv.heightAnchor.constraint(equalToConstant: 100).isActive = true
         iv.widthAnchor.constraint(equalToConstant: 100).isActive = true
+        iv.heroID = "icon"
         return iv
     }()
     
@@ -170,7 +171,6 @@ extension WeatherTableViewCell {
         v.backgroundColor = .clear
         v.addSubview(icon)
         v.heightAnchor.constraint(equalTo: icon.heightAnchor).isActive = true
-//        v.widthAnchor.constraint(equalTo: icon.widthAnchor).isActive = true
         return v
     }
 }

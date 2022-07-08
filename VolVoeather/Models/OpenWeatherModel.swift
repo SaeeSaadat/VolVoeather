@@ -5,10 +5,12 @@
 //  Created by Saee Saadat on 7/8/22.
 //
 
-import Foundation
+import UIKit
+import Combine
 
 struct OWWeather: Decodable {
-    let id: Int
+    let dt: Int?
+    let id: Int?
     let main: String
     let description: String
     let icon: String
@@ -43,4 +45,35 @@ struct OpenWeatherModel: Decodable {
     let id: Int
     let name: String
     let cod: Int
+}
+
+struct OpenWeatherForecastModel: Decodable {
+    let cod: String?
+    let message: Int?
+    let cnt: Int?
+    let list: [OWForecastModel]?
+}
+
+struct OWForecastModel: Decodable {
+    let dt: Int?
+    let main: OWMain?
+    let weather: [OWWeather]?
+    let clouds: OWClouds?
+    let wind: OWWind?
+    let visibility: Int?
+}
+
+class ForecastModelWrapper {
+    var forecast: OWForecastModel
+    
+    var weatherIcon: UIImage? {
+        didSet {
+            weatherIconNotifier.send(weatherIcon)
+        }
+    }
+    var weatherIconNotifier = PassthroughSubject<UIImage?, Never>()
+    
+    init(forecast: OWForecastModel) {
+        self.forecast = forecast
+    }
 }
