@@ -120,8 +120,6 @@ class WeatherTableViewCell: UITableViewCell {
             labelStack.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -20),
             labelStack.centerYAnchor.constraint(equalTo: centerYAnchor, constant: 10),
             backgroundImageView.heightAnchor.constraint(equalToConstant: 200),
-//            icon.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: -20),
-//            icon.topAnchor.constraint(equalTo: labelStack.bottomAnchor, constant: -20),
         ])
         
         isHeroEnabled = true

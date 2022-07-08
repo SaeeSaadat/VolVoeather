@@ -55,7 +55,7 @@ struct OpenWeatherForecastModel: Decodable {
 }
 
 struct OWForecastModel: Decodable {
-    let dt: Int?
+    let dt: Double?
     let main: OWMain?
     let weather: [OWWeather]?
     let clouds: OWClouds?

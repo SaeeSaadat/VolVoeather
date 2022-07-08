@@ -67,7 +67,7 @@ class ForecastTableViewCell: UITableViewCell {
             containerView.centerYAnchor.constraint(equalTo: tempLabel.centerYAnchor),
             containerView.leadingAnchor.constraint(equalTo: nameLabel.leadingAnchor, constant: -10),
             containerView.trailingAnchor.constraint(equalTo: tempLabel.trailingAnchor, constant: 10),
-            containerView.centerXAnchor.constraint(equalTo: icon.centerXAnchor),
+            containerView.centerXAnchor.constraint(equalTo: icon.centerXAnchor, constant: -20),
         ])
         
         
@@ -79,7 +79,15 @@ class ForecastTableViewCell: UITableViewCell {
     }
     
     func setupCell(model: ForecastModelWrapper) {
-        self.nameLabel.text = "\(model.forecast.dt ?? 0)"
+        
+        guard let dt = model.forecast.dt else { return }
+        let date = Date(timeIntervalSince1970: dt)
+        let formatter = DateFormatter()
+        formatter.dateFormat = "YY/DD/MM HH:mm"
+        formatter.locale = Locale(identifier: "EN_US_POSIX")
+        
+        
+        self.nameLabel.text = formatter.string(from: date)
         self.tempLabel.text = "\(Int(model.forecast.main?.temp ?? 0.0))º C"
         
         
