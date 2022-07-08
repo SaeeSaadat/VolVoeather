@@ -7,11 +7,14 @@
 
 import UIKit
 import Hero
+import Combine
 
 class WeatherTableViewCell: UITableViewCell {
     
     static let cellIdentifier: String = "WeatherTableViewCell"
 
+    private var iconObserver: AnyCancellable?
+    
     let containerView: UIView = {
         let v = UIView()
         v.translatesAutoresizingMaskIntoConstraints = false
@@ -68,10 +71,18 @@ class WeatherTableViewCell: UITableViewCell {
     let labelStack: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
-        stackView.spacing = 10
+        stackView.spacing = 5
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.backgroundColor = .clear
         return stackView
+    }()
+    
+    let icon: UIImageView = {
+        let iv = UIImageView()
+        iv.translatesAutoresizingMaskIntoConstraints = false
+        iv.heightAnchor.constraint(equalToConstant: 100).isActive = true
+        iv.widthAnchor.constraint(equalToConstant: 100).isActive = true
+        return iv
     }()
     
     override func awakeFromNib() {
@@ -91,8 +102,8 @@ class WeatherTableViewCell: UITableViewCell {
         containerView.addSubview(gradientView)
         gradientView.constraintToEdges(to: containerView)
         
-//        backgroundImageView.addBlurView(blurStyle: .dark)
         containerView.addSubview(labelStack)
+        containerView.addSubview(icon)
         
         backgroundImageView.layer.cornerRadius = 30
         backgroundImageView.clipsToBounds = true
@@ -100,11 +111,16 @@ class WeatherTableViewCell: UITableViewCell {
         
         labelStack.addArrangedSubview(nameLabel)
         labelStack.addArrangedSubview(tempLabel)
+        labelStack.addArrangedSubview(makeIconView())
+        
+        
         NSLayoutConstraint.activate([
-            labelStack.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
-            labelStack.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
-            labelStack.centerYAnchor.constraint(equalTo: centerYAnchor),
-            backgroundImageView.heightAnchor.constraint(equalToConstant: 200)
+            labelStack.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 20),
+            labelStack.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -20),
+            labelStack.centerYAnchor.constraint(equalTo: centerYAnchor, constant: 10),
+            backgroundImageView.heightAnchor.constraint(equalToConstant: 200),
+//            icon.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: -20),
+//            icon.topAnchor.constraint(equalTo: labelStack.bottomAnchor, constant: -20),
         ])
         
         isHeroEnabled = true
@@ -114,11 +130,13 @@ class WeatherTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setupCell(cityName: String, temp: Float?) {
+    func setupCell(city: City) {
+        let cityName = city.name
+        let temp = city.weather?.main?.temp
         let image = UIImage(named: cityName.components(separatedBy: .whitespacesAndNewlines).joined().lowercased())
         backgroundImageView.image = image
         nameLabel.attributedText = NSMutableAttributedString(string: cityName, attributes: nameLabelAttributes)
-        let tempString = temp != nil ? "\(temp ?? 0.0)º C" : "28º C"
+        let tempString = temp != nil ? "\(Int(temp ?? 0.0))º C" : "Loading..."
         tempLabel.attributedText = NSMutableAttributedString(string: tempString, attributes: tempLabelAttributes)
         
         isHeroEnabled = true
@@ -126,9 +144,33 @@ class WeatherTableViewCell: UITableViewCell {
         backgroundImageView.heroID = "\(cityName) image"
         nameLabel.heroID = "\(cityName) name"
         tempLabel.heroID = "\(cityName) condition"
+        
+        if let image = city.weatherIcon {
+            self.icon.image = image
+        } else {
+            iconObserver = city.weatherIconNotifier
+                .receive(on: DispatchQueue.main)
+                .sink(receiveCompletion: { _ in
+                }, receiveValue: { [weak self] image in
+                    self?.icon.image = image
+                })
+        }
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {}
     override func setHighlighted(_ highlighted: Bool, animated: Bool) {}
 
+}
+
+
+extension WeatherTableViewCell {
+    private func makeIconView() -> UIView{
+        let v = UIView()
+        v.translatesAutoresizingMaskIntoConstraints = false
+        v.backgroundColor = .clear
+        v.addSubview(icon)
+        v.heightAnchor.constraint(equalTo: icon.heightAnchor).isActive = true
+//        v.widthAnchor.constraint(equalTo: icon.widthAnchor).isActive = true
+        return v
+    }
 }

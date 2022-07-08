@@ -23,6 +23,47 @@ class ViewController: UIViewController {
         return tv
     }()
     
+    let errorView: UIView = {
+        let v = GradientView()
+        v.translatesAutoresizingMaskIntoConstraints = false
+//        v.backgroundColor = .black
+        v.horizontalMode = false
+        v.startColor = .black.withAlphaComponent(0.8)
+        v.endColor = .black.withAlphaComponent(0.6)
+        v.layer.cornerRadius = 15
+        v.clipsToBounds = true
+        let errLabel = UILabel()
+        errLabel.translatesAutoresizingMaskIntoConstraints = false
+        errLabel.text = "Fetching data failed, try again?"
+        errLabel.textColor = .white
+        errLabel.font = UIFont.boldSystemFont(ofSize: 20)
+        errLabel.textAlignment = .center
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitle("Try Again", for: .normal)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 15)
+        button.setTitleColor(.red, for: .normal)
+        button.tag = 123321
+        v.addSubview(errLabel)
+        v.addSubview(button)
+        
+        NSLayoutConstraint.activate([
+            v.heightAnchor.constraint(equalToConstant: 300),
+            v.widthAnchor.constraint(equalToConstant: 300),
+            errLabel.leadingAnchor.constraint(equalTo: v.leadingAnchor),
+            errLabel.trailingAnchor.constraint(equalTo: v.trailingAnchor),
+            errLabel.centerYAnchor.constraint(equalTo: v.centerYAnchor, constant: -10),
+            button.topAnchor.constraint(equalTo: errLabel.bottomAnchor, constant: 20),
+            button.centerXAnchor.constraint(equalTo: errLabel.centerXAnchor),
+//            button.widthAnchor.constraint(equalToConstant: 100),
+//            button.heightAnchor.constraint(equalToConstant: 50),
+//            button.bottomAnchor.constraint(equalTo: v.bottomAnchor)
+        ])
+        
+        v.isHidden = true
+        return v
+    }()
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,38 +80,38 @@ class ViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         
+        view.addSubview(errorView)
+        errorView.isHidden = true
+        if let b = errorView.viewWithTag(123321) as? UIButton {
+            b.addTarget(self, action: #selector(fetchCityData), for: .touchUpInside)
+        }
+        errorView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        errorView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        
         self.isHeroEnabled = true
         fetchCityData()
     }
     
-
-    private func fetchCityData() {
+    
+    @objc private func fetchCityData() {
+        if !errorView.isHidden {
+            errorView.isHidden = true
+            tableView.isUserInteractionEnabled = true
+        }
         for city in cities {
-            do {
-                try NetworkManager.getRequest(url: "\(Constants.openWeatherURL)?lat=\(city.lat)&lon=\(city.lon)&units=metric&appid=\(Constants.appID)")
-                    .receive(on: DispatchQueue.main)
-                    .sink { completion in
-                        switch completion {
-                        case .failure(let error):
-                            print("error! \(error)")
-                        case .finished:
-                            print("Finished! yeay!")
-                        }
-                    } receiveValue: { [weak self] (data, response) in
+            city.fetchData()
+                .receive(on: DispatchQueue.main)
+                .sink { [weak self] completion in
+                    if case .failure(let err) = completion {
+                        print(err)
                         guard let self = self else { return }
-                        let decoder = JSONDecoder()
-                        do {
-                            let weather = try decoder.decode(OpenWeatherModel.self, from: data)
-                            city.weather = weather
-                            self.tableView.reloadData()
-                        } catch {
-                            print("Exception occured while decoding response!")
-                        }
+                        self.errorView.isHidden = false
+                        self.tableView.isUserInteractionEnabled = false
                         
-                    }.store(in: &observer)
-            } catch {
-                print("Exception occured!")
-            }
+                    }
+                } receiveValue: { [weak self] city in
+                    self?.tableView.reloadData()
+                }.store(in: &observer)
         }
     }
 }
@@ -86,7 +127,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             return UITableViewCell()
         }
         let city = cities[indexPath.row]
-        cell.setupCell(cityName: city.name, temp: city.weather?.main?.temp)
+        cell.setupCell(city: city)
         return cell
     }
     

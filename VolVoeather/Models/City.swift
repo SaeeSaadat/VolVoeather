@@ -5,7 +5,7 @@
 //  Created by Saee Saadat on 7/7/22.
 //
 
-import Foundation
+import UIKit
 import Combine
 
 class City {
@@ -13,6 +13,15 @@ class City {
     let lat: Float
     let lon: Float
     var weather: OpenWeatherModel?
+
+    var weatherIcon: UIImage? {
+        didSet {
+            weatherIconNotifier.send(weatherIcon)
+        }
+    }
+    var weatherIconNotifier = PassthroughSubject<UIImage?, Never>()
+    
+    private var observer: [AnyCancellable] = []
     
     init(name: String, lat: Float, lon: Float) {
         self.name = name
@@ -30,5 +39,59 @@ class City {
     
     static func getAllCities() -> [City] {
         return [stockholm, gothenburg, mountainView, london, newYork, berlin, tehran]
+    }
+}
+
+extension City {
+    @discardableResult
+    func fetchData() -> Future<City, Error> {
+        return Future { [weak self] promise in
+            guard let self = self else { return }
+            do {
+                try NetworkManager.getRequest(url: "\(Constants.openWeatherURL)?lat=\(self.lat)&lon=\(self.lon)&units=metric&appid=\(Constants.appID)")
+                    .sink( receiveCompletion: { completion in
+                        switch completion {
+                        case .failure(let error):
+                            promise(.failure(error))
+                        case .finished:
+                            print("city \(self.name) data fetched successfully!")
+                        }
+                    }, receiveValue: { [weak self] (data, response) in
+                        guard let self = self else { return }
+                        let decoder = JSONDecoder()
+                        do {
+                            let weather = try decoder.decode(OpenWeatherModel.self, from: data)
+                            self.weather = weather
+                            self.fetchWeatherIcon()
+                            promise(.success(self))
+                        } catch (let err) {
+                            print("Exception occured while decoding response!")
+                            promise(.failure(err))
+                        }
+                    }).store(in: &self.observer)
+            } catch(let error) {
+                promise(.failure(error))
+            }
+        }
+    }
+    
+    func fetchWeatherIcon() {
+        guard let iconName = self.weather?.weather[0]?.icon else { return }
+        do {
+            try NetworkManager.getRequest(url: "\(Constants.openWeatherIconsURL)/\(iconName)@2x.png")
+                .sink(receiveCompletion: { completion in
+                    if case .failure(let err) = completion {
+                        self.weatherIcon = UIImage(systemName: "xmark.icloud")
+                        print("failure occured while fetching weather icon: \(err)")
+                    }
+                }, receiveValue: { (data: Data, response: URLResponse) in
+                    if let image = UIImage(data: data) {
+                        self.weatherIcon = image
+                    }
+                }).store(in: &observer)
+        } catch (let err){
+            self.weatherIcon = UIImage(systemName: "xmark.icloud")
+            print("error occured while fetching weather icon: \(err)")
+        }
     }
 }

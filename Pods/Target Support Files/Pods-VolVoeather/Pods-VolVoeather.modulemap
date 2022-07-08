@@ -1,0 +1,6 @@
+framework module Pods_VolVoeather {
+  umbrella header "Pods-VolVoeather-umbrella.h"
+
+  export *
+  module * { export * }
+}

@@ -21,7 +21,7 @@ enum APIError: Error {
 
 
 class NetworkManager {
-    static func getRequest(url: String) throws -> URLSession.DataTaskPublisher {
+    static func getRequest(url: String, cachePolicy: NSURLRequest.CachePolicy = .useProtocolCachePolicy) throws -> URLSession.DataTaskPublisher {
 //        let headers = [
 //            "Content-Type": "application/json"
 //        ]
@@ -30,10 +30,12 @@ class NetworkManager {
         }
         
         
-        var request = URLRequest(url: url, cachePolicy: .useProtocolCachePolicy, timeoutInterval: 10.0)
+        var request = URLRequest(url: url, cachePolicy: cachePolicy, timeoutInterval: 10.0)
         request.httpMethod = "GET"
         
         let session = URLSession.shared
         return session.dataTaskPublisher(for: request)
     }
 }
+
+
